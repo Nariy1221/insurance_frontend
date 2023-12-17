@@ -1,0 +1,33 @@
+[
+    {
+      "id": 1,
+      "name": "全部",
+      "value": "all"
+    },
+    {
+      "id": 2,
+      "name": "一般职业",
+      "value": "general occupation"
+    },
+    {
+      "id": 3,
+      "name": "机械制造业",
+      "value": "mechanical manufacturing"
+    },
+    {
+      "id": 4,
+      "name": "金融业",
+      "value": "financial industry"
+    },
+    {
+      "id": 5,
+      "name": "服务业",
+      "value": "service industry"
+    },
+    {
+      "id": 6,
+      "name": "教育行业",
+      "value": "education industry"
+    }
+  ]
+  

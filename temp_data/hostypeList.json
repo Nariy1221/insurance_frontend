@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "name": "全部",
+      "value": "quán bù"
+    },
+    {
+      "id": 2,
+      "name": "意外工伤",
+      "value": "yì wài gōng shāng"
+    },
+    {
+      "id": 3,
+      "name": "意外人身交通事故",
+      "value": "yì wài rén shēn jiāo tōng shì gù"
+    },
+    {
+      "id": 4,
+      "name": "意外车辆交通事故",
+      "value": "yì wài chē liàng jiāo tōng shì gù"
+    },
+    {
+      "id": 5,
+      "name": "意外设备损坏",
+      "value": "yì wài shè bèi sǔn huài"
+    },
+    {
+      "id": 6,
+      "name": "极限运动意外受伤/亡故",
+      "value": "jí xiàn yùn dòng yì wài shòu shāng/wáng gù"
+    },
+    {
+      "id": 7,
+      "name": "日常常见疾病（感冒/肚子疼/划伤）",
+      "value": "rì cháng cháng jiàn jí bìng (gǎn mào/dù zi téng/huá shāng)"
+    }
+  ]
+  
