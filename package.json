@@ -1,8 +1,8 @@
 {
   "name": "yygh-site",
   "version": "1.0.0",
-  "description": "尚医通项目平台",
-  "author": "atguigu",
+  "description": "企小保保险推荐购买平台",
+  "author": "qixiaobao",
   "private": true,
   "scripts": {
     "dev": "nuxt",

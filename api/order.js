@@ -11,6 +11,25 @@ export default {
             }
         })
     },
+    updateOrder(newData) {
+        return request({
+            url: `/rest/orders/update-order`,
+            method: 'post',
+            data:newData,
+            headers:{
+              'Content-Type' : 'application/json'
+            }
+        })
+    },
+    deleteOrder(uid,mid) {
+        return request({
+            url: `/rest/orders/delete-order`,
+            method: 'delete',
+            params:{
+                uid,mid
+            }
+        })
+    },
     getOrderList(uid) {
         return request({
             url: `/rest/orders/find-order`,

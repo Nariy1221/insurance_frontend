@@ -22,7 +22,7 @@
                     <step1 ref="step1" :item="hospital" v-if="stepActivate === 0" @transfer="getCanNext" :insured.sync="insuredFrom"></step1>
                     <step2 :item="hospital" v-if="stepActivate === 1" @price="handleDataFromChild"
                         @oldPrice="handleOldPriceFromChild"></step2>
-                    <step3 :item="hospital" v-if="stepActivate === 2" :countdownTime="countdownTime"
+                    <step3 :item="hospital" v-if="stepActivate === 2" :countdownTime="countdownTime" :theOrder.sync="orderInfo"
                         :receivedPrice="receivedPrice" :receivedOldPrice="receivedOldPrice" @choosePay="go2Pay"></step3>
                     <step4 :item="hospital" v-if="stepActivate === 3" :relatedList="relatList" @buyNewOne="buyNew"></step4>
                 </el-col>
@@ -105,7 +105,13 @@ export default {
             choosePayMethod: 1,
             payMsg:'扫描二维码支付',
             insuredFrom:[],
-            relatList:[]
+            relatList:[],
+            orderInfo:{
+                    payment_type:'',
+                    status:'未完成',
+                    create_time:'',
+                    code:''
+            },
         };
     },
     beforeDestroy() {
@@ -176,7 +182,8 @@ export default {
         //支付成功关闭窗口，并跳转到step4
         closeDialogVisible() {
             this.dialogVisible = false;
-            this.stepActivate++
+            this.stepActivate++;
+            this.cancelOrder('已完成',this.whatMethod)
         },
         backStep() {
             if (this.stepActivate > 0 && this.stepActivate < 2) {
@@ -197,6 +204,7 @@ export default {
                 .catch((e) => {
                     if (e == 'cancel') {
                         this.stepActivate--;
+                        this.cancelOrder('已取消')
                     } else if (e == 'close') {
 
                     }
@@ -264,6 +272,25 @@ export default {
                         message: '订单创建异常，请重试',
                         type: 'error'
                     });
+                }
+                // console.log("insurance", this.insurance)
+            });
+
+        },
+        cancelOrder(val,method){
+            let uid = this.$store.getters.getUserInfo.uid
+            this.orderInfo.status = val
+            this.orderInfo.payment_type = method
+            // console.log(uid,this.item.mid)
+            let data = {
+                uid,
+                mid:this.item.mid,
+                newData:this.orderInfo
+            }
+            orderApi.updateOrder(data).then((response) => {
+                if (response.success === true) {
+                    
+                } else {
                 }
                 // console.log("insurance", this.insurance)
             });

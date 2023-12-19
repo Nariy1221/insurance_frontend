@@ -46,15 +46,21 @@
             </el-table-column>
             <el-table-column prop="amount" label="支付金额（元）" width="150" align="center">
             </el-table-column>
-            <el-table-column prop="create_time" label="订单时间" align="center" width="150">
+            <el-table-column prop="create_time" label="订单时间" align="center" width="180">
+              <template slot-scope="scope">
+                {{ scope.row.create_time==''||scope.row.create_time==null?'-':formattedDate(Number(scope.row.create_time)) }}
+            </template>
             </el-table-column>
             <el-table-column prop="status" label="订单状态" width="100" align="center">
               <template slot-scope="scope">
-              <el-tag :type="scope.row.status =='完成' ? 'success' : 'warning'" disable-transitions>{{ scope.row.status }}</el-tag>
+              <el-tag :type="scope.row.status =='已完成' ? 'success' : scope.row.status =='已取消' ?'warning':'error'" disable-transitions>
+                {{ scope.row.status?scope.row.status:'已取消' }}</el-tag>
             </template>
             </el-table-column>
             <el-table-column label="操作" width="200" align="center">
               <template slot-scope="scope">
+                <el-button type="text" class="v-link highlight clickable selected" style="color: tomato;"
+                  @click="show(scope.row.id)">删除</el-button>
                 <el-button type="text" class="v-link highlight clickable selected"
                   @click="show(scope.row.id)">详情</el-button>
                   <el-button type="text" class="" v-if="scope.row.status=='完成'"
@@ -175,6 +181,23 @@ export default {
     // this.getStatusList();
   },
   methods: {
+    formattedDate (originalDateString) {
+            // 原始日期时间字符串
+            // const originalDateString =  this.nowTime;
+
+            // 解析日期时间字符串为 JavaScript Date 对象
+            const date = new Date(originalDateString);
+
+            // 提取日期和时间的各个部分
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
+            const hours = date.getHours().toString().padStart(2, '0');
+            // const minutes = date.getMinutes().toString().padStart(2, '0');
+            // const seconds = date.getSeconds().toString().padStart(2, '0');
+
+            return year + '年' + month + '月' + day + '日' + hours + '时';
+        },
     fetchData() {
       let uid = this.$store.getters.getUserInfo.uid
       orderInfoApi.getOrderList(uid).then((response) => {

@@ -56,7 +56,8 @@ module.exports = {
     { src: '~/plugins/myPlugin.js', ssr: false },
     { src: '~/plugins/localStorage.js', ssr: false },
 
-  ]
+  ],
+  target: 'static'
 
 }
 

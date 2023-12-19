@@ -69,38 +69,60 @@ import orderInfoApi from '@/api/order.js'
 export default {
     // mixins: [Countdown],
     name: 'step3',
-    props: ["item", 'countdownTime', 'receivedPrice', 'receivedOldPrice'],
+    props: ["item", 'countdownTime', 'receivedPrice', 'receivedOldPrice','theOrder'],
     data() {
         return {
             department: department,
             // hospital: blockList[0],
             applicantForm: FormData[0],
             insuredForm: FormData[1],
-            orderInfo:[],
+            orderInfo: {
+                payment_type: "",
+                status: "未完成",
+                create_time: '',
+                code: ""
+            },
             radio: '1',
             formattedTime: "05分59秒",
             deadline2: '',
+            nowTime:''
         }
     },
     methods: {
     },
     created() {
+        this.orderInfo = this.theOrder
         // this.hospital = this.item
         console.log(this.item)
         let uid = this.$store.getters.getUserInfo.uid
         orderInfoApi.getOrderList(uid).then((response) => {
             console.log(response)
             this.orderInfo = response.order[0]
-            if(this.orderInfo.create_time == null){
-                this.orderInfo.create_time = new Date()
+            let now = new Date();
+            this.nowTime = now
+            if (this.orderInfo.create_time == '') {
+                this.orderInfo.create_time = ''+Date.parse(now)
             }
-            if(this.orderInfo.code == null){
-                this.orderInfo.code = this.orderInfo.customer_id + '' + this.orderInfo.insurance_id
+            if (this.orderInfo.code == '') {
+                this.orderInfo.code = this.orderInfo.create_time.substring(0, 4) + this.orderInfo.customer_id + '' + this.orderInfo.insurance_id
+            }
+            if (this.orderInfo.status == '') {
+                this.orderInfo.status = '未完成'
             }
             console.log(this.orderInfo.create_time)
             // console.log(this.deadline2,Date.parse(response.order.create_time) )
-            this.deadline2 = Date.parse(this.orderInfo.create_time) + 1000 * 60 * 10
+            this.deadline2 = Date.parse(now) + 1000 * 60 * 10
         })
+        let data = {
+            uid: uid,
+            mid: this.item.mid,
+            newData: this.orderInfo
+        }
+        console.log(data)
+        orderInfoApi.updateOrder(data).then((response) => {
+
+            console.log("insurance", response)
+        });
 
     },
     beforeDestroy() {
@@ -108,7 +130,8 @@ export default {
     computed: {
         formattedDate: function () {
             // 原始日期时间字符串
-            const originalDateString = this.orderInfo.create_time;
+            console.log(this.orderInfo.create_time)
+            const originalDateString =  this.nowTime;
 
             // 解析日期时间字符串为 JavaScript Date 对象
             const date = new Date(originalDateString);
@@ -123,19 +146,25 @@ export default {
 
             return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
         },
-        isOverTime(){
+        isOverTime() {
             return Date.now() - this.deadline2 > 0
         },
-        hospital:function(){
+        hospital: function () {
             return this.item
         }
 
     },
     watch: {
         radio(newVal) {
-            this.$emit('choosePay', { payMethod: newVal })
+            this.$emit('choosePay', { payMethod: newVal,order:this.orderInfo })
             // this.formattedTime = newTime; // 当 countdownTime 变化时，更新 formattedTime
         },
+        theOrder(newVal){
+            this,this.orderInfo = newVal
+        },
+        orderInfo(newVal){
+            this.$emit('update:theOrder',newVal)
+        }
     },
 }
 </script>
