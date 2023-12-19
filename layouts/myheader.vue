@@ -22,7 +22,7 @@
       <div class="right-wrapper" style="width: auto;">
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" style="border: none;">
           <!-- <el-menu-item @click="handleproduct" index="0" style="display: none;">产品中心</el-menu-item> -->
-          <el-menu-item @click="handleproduct" index="1">可视化平台</el-menu-item>
+          <!-- <el-menu-item @click="handleproduct" index="1">可视化平台</el-menu-item> -->
           <el-submenu index="2">
             <template slot="title">推荐保险</template>
             <el-menu-item v-for="(item, index) in commonInsurance" :key="index" :index="'2-' + index">{{ item.name

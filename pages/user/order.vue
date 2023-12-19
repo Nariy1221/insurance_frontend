@@ -43,6 +43,9 @@
               </template>
             </el-table-column>
             <el-table-column prop="payment_type" label="支付方式" width="200" align="center">
+              <template slot-scope="scope">
+                {{ scope.row.payment_type==''||scope.row.payment_type==null?'-':scope.row.payment_type }}
+            </template>
             </el-table-column>
             <el-table-column prop="amount" label="支付金额（元）" width="150" align="center">
             </el-table-column>

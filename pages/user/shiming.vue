@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     init() {
-      this.showInfo();
+      // this.showInfo();
       this.getUserInfoById();
       // this.getDict();
     },
@@ -125,16 +125,17 @@ export default {
       let userInfo = this.$store.getters.getUserInfo
       if (userInfo) {
         this.userInfo.ID = userInfo.ID
-        this.userInfo.authStatus = this.$store.getters.getAuthStatus||0
+        // this.userInfo.authStatus = this.$store.getters.getAuthStatus||0
         this.userAuah = this.$store.getters.getCertificates
       }
     },
     getUserInfoById() {
-      
+      this.userInfo.authStatus = this.$store.getters.getAuthStatus||0
       if (this.userInfo.authStatus != 0) {
         // userInfoApi.getUserInfoById(this.userInfo.ID).then((response) => {
         //   this.userInfo = response.data;
         // });
+        this.showInfo()
       }
     },
     saveUserAuah() {
